@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.android.library'
+
+
+
+android {
+    compileSdkVersion 31
+    defaultConfig {
+        applicationId "com.github.crazyorr.ffmpegrecorder"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+}
+
+ext {
+    versions = [
+            'javacv': '1.4.2',
+            'ffmpeg': '4.0.1'
+
+    ]
+}
+
+dependencies {
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:25.0.1'
+
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    testImplementation 'junit:junit:4.13.2'
+    implementation(group: 'org.bytedeco', name: 'javacv-platform', version: versions.javacv) {
+        exclude group: 'org.bytedeco.javacpp-presets'
+    }
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm'
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: "${versions.ffmpeg}-${versions.javacv}", classifier: 'android-arm64'
+
+
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.16'
+    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.16'
+
+
+
+
+}
